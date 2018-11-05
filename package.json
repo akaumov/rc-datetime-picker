@@ -1,6 +1,6 @@
 {
   "name": "rc-datetime-picker",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "React datetime picker by momentjs",
   "main": "dist/rc-datetime-picker.cjs.js",
   "keywords": [
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AllenWooooo/rc-datetime-picker.git"
+    "url": "git+https://github.com/akaumov/rc-datetime-picker.git"
   },
   "author": "Allen Wu <mangong33@gmail.com>",
   "license": "MIT",
