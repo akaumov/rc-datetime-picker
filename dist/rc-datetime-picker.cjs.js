@@ -1,5 +1,5 @@
 /*
- * rc-datetime-picker v1.6.1
+ * rc-datetime-picker v1.6.2
  * https://github.com/AllenWooooo/rc-datetime-picker
  *
  * (c) 2018 Allen Wu
@@ -1729,7 +1729,7 @@ var Trigger = function (_Component) {
     };
 
     _this.getPosition = function () {
-      var elem = _this.refs.trigger;
+      var elem = _this.trigger;
       var elemBCR = elem.getBoundingClientRect();
 
       return {
@@ -1796,6 +1796,8 @@ var Trigger = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _props = this.props,
           children = _props.children,
           appendToBody = _props.appendToBody,
@@ -1808,7 +1810,9 @@ var Trigger = function (_Component) {
         { className: 'datetime-trigger ' + className },
         React__default.createElement(
           'div',
-          { onClick: this.togglePicker.bind(this, !isOpen), ref: 'trigger' },
+          { onClick: this.togglePicker.bind(this, !isOpen), ref: function ref(t) {
+              return _this2.trigger = t;
+            } },
           children
         ),
         appendToBody ? this._renderPortal() : this._renderPicker(isOpen)
@@ -1863,7 +1867,7 @@ var RangeTrigger = function (_Component) {
     };
 
     _this.getPosition = function () {
-      var elem = _this.refs.trigger;
+      var elem = _this.trigger;
       var elemBCR = elem.getBoundingClientRect();
 
       return {
@@ -1930,6 +1934,8 @@ var RangeTrigger = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _props = this.props,
           children = _props.children,
           appendToBody = _props.appendToBody,
@@ -1942,7 +1948,9 @@ var RangeTrigger = function (_Component) {
         { className: 'datetime-range-trigger ' + className },
         React__default.createElement(
           'div',
-          { onClick: this.togglePicker.bind(this, !isOpen), ref: 'trigger' },
+          { onClick: this.togglePicker.bind(this, !isOpen), ref: function ref(t) {
+              return _this2.trigger = t;
+            } },
           children
         ),
         appendToBody ? this._renderPortal() : this._renderPicker(isOpen)
