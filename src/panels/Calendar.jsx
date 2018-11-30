@@ -11,7 +11,7 @@ class Calendar extends Component {
     super(props);
     this.state = {
       moment: this.getCurrentMoment(props),
-      panel: props.minPanel || 'day'
+      panel: props.onChangePanel ? props.panel : props.minPanel || 'day'
     };
   }
 
@@ -23,6 +23,12 @@ class Calendar extends Component {
     if (!props.isOpen) {
       this.setState({
         panel: props.minPanel || 'day'
+      });
+    }
+
+    if (props.onChangePanel && props.panel !== this.props.panel) {
+      this.setState({
+         panel: props.panel
       });
     }
   }
@@ -46,7 +52,7 @@ class Calendar extends Component {
   handleSelect = (selected) => {
     const {panel} = this.state;
     const {onChange, range, rangeAt, minPanel} = this.props;
-    const nextPanel = (panel === 'year' ? 'month' : 'day') === 'month' 
+    const nextPanel = (panel === 'year' ? 'month' : 'day') === 'month'
       ? minPanel === 'year' ? 'year' : 'month'
       : minPanel === 'month' ? 'month' : 'day';
     let _selected = this.props.moment;
@@ -68,7 +74,7 @@ class Calendar extends Component {
     } else {
       _selected = selected;
     }
-    
+
     this.changePanel(nextPanel, selected);
 
     if (shouldChange) {
@@ -81,6 +87,10 @@ class Calendar extends Component {
       moment,
       panel
     });
+
+    if (this.props.onChangePanel) {
+      this.props.onChangePanel(panel);
+    }
   }
 
   render() {
@@ -107,13 +117,13 @@ class Calendar extends Component {
     return (
       <div style={style}>
         <div className="calendar">
-          <Day 
+          <Day
             {...props}
             style={{display: isDayPanel ? 'block' : 'none'}} />
-          <Month 
+          <Month
             {...props}
             style={{display: isMonthPanel ? 'block' : 'none'}} />
-          <Year 
+          <Year
             {...props}
             style={{display: isYearPanel ? 'block' : 'none'}} />
         </div>

@@ -691,7 +691,7 @@ var Calendar = function (_Component) {
 
     _this.state = {
       moment: _this.getCurrentMoment(props),
-      panel: props.minPanel || 'day'
+      panel: props.onChangePanel ? props.panel : props.minPanel || 'day'
     };
     return _this;
   }
@@ -706,6 +706,12 @@ var Calendar = function (_Component) {
       if (!props.isOpen) {
         this.setState({
           panel: props.minPanel || 'day'
+        });
+      }
+
+      if (props.onChangePanel && props.panel !== this.props.panel) {
+        this.setState({
+          panel: props.panel
         });
       }
     }
@@ -826,6 +832,10 @@ var _initialiseProps = function _initialiseProps() {
       moment: moment$$1,
       panel: panel
     });
+
+    if (_this2.props.onChangePanel) {
+      _this2.props.onChangePanel(panel);
+    }
   };
 };
 
@@ -1050,12 +1060,41 @@ var Picker = function (_Component) {
 
     _this.changePanel = function (panel) {
       _this.setState({
-        panel: panel
+        panel: panel,
+        calendarPanel: 'day'
+      });
+    };
+
+    _this.changeCalendarPanel = function (panel) {
+      _this.setState({
+        panel: panel,
+        calendarPanel: panel
+      });
+    };
+
+    _this.handleCancel = function () {
+      if (_this.props.onCancel) {
+        _this.props.onCancel();
+      }
+    };
+
+    _this.handleBackToDayPanel = function (e) {
+      e.stopPropagation();
+      _this.setState({
+        calendarPanel: 'day'
+      });
+    };
+
+    _this.handleBackToMonthPanel = function (e) {
+      e.stopPropagation();
+      _this.setState({
+        calendarPanel: 'month'
       });
     };
 
     _this.state = {
-      panel: 'calendar'
+      panel: 'calendar',
+      calendarPanel: 'day'
     };
     return _this;
   }
@@ -1071,8 +1110,12 @@ var Picker = function (_Component) {
           _props$showTimePicker = _props.showTimePicker,
           showTimePicker = _props$showTimePicker === undefined ? true : _props$showTimePicker,
           _props$showCalendarPi = _props.showCalendarPicker,
-          showCalendarPicker = _props$showCalendarPi === undefined ? true : _props$showCalendarPi;
-      var panel = this.state.panel;
+          showCalendarPicker = _props$showCalendarPi === undefined ? true : _props$showCalendarPi,
+          _props$showBackButton = _props.showBackButton,
+          showBackButton = _props$showBackButton === undefined ? false : _props$showBackButton;
+      var _state = this.state,
+          panel = _state.panel,
+          calendarPanel = _state.calendarPanel;
 
       var isTimePanel = panel === 'time';
       var isCalendarPanel = panel === 'calendar';
@@ -1103,8 +1146,23 @@ var Picker = function (_Component) {
             'Time'
           )
         ) : undefined,
-        showCalendarPicker ? React__default.createElement(Calendar, _extends({}, props, { isOpen: isOpen, style: { display: isCalendarPanel || !splitPanel ? 'block' : 'none' } })) : undefined,
-        showTimePicker ? React__default.createElement(Time, _extends({}, props, { style: { display: isTimePanel || !splitPanel ? 'block' : 'none' } })) : undefined
+        showCalendarPicker ? React__default.createElement(Calendar, _extends({}, props, { isOpen: isOpen, panel: calendarPanel, onChangePanel: this.changeCalendarPanel, style: { display: isCalendarPanel || !splitPanel ? 'block' : 'none' } })) : undefined,
+        showTimePicker ? React__default.createElement(Time, _extends({}, props, { style: { display: isTimePanel || !splitPanel ? 'block' : 'none' } })) : undefined,
+        showBackButton && showCalendarPicker && calendarPanel === 'day' && React__default.createElement(
+          'div',
+          { className: 'back-button', onClick: this.handleCancel },
+          'Cancel'
+        ),
+        showBackButton && showCalendarPicker && calendarPanel === 'month' && React__default.createElement(
+          'div',
+          { className: 'back-button', onClick: this.handleBackToDayPanel },
+          'Back'
+        ),
+        showBackButton && showCalendarPicker && calendarPanel === 'year' && React__default.createElement(
+          'div',
+          { className: 'back-button', onClick: this.handleBackToMonthPanel },
+          'Back'
+        )
       );
     }
   }]);

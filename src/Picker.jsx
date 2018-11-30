@@ -11,31 +11,61 @@ class Picker extends Component {
   constructor() {
     super();
     this.state = {
-      panel: 'calendar'
+      panel: 'calendar',
+      calendarPanel: 'day'
     };
   }
 
   changePanel = (panel) => {
     this.setState({
-      panel
+      panel,
+      calendarPanel: 'day'
     });
   }
 
+  changeCalendarPanel = (panel) => {
+    this.setState({
+      panel,
+      calendarPanel: panel
+    });
+  }
+
+  handleCancel = () => {
+    if (this.props.onCancel) {
+        this.props.onCancel();
+    }
+  };
+
+  handleBackToDayPanel = (e) => {
+      e.stopPropagation();
+      this.setState({
+          calendarPanel: 'day'
+      })
+  };
+
+  handleBackToMonthPanel = (e) => {
+      e.stopPropagation();
+      this.setState({
+          calendarPanel: 'month'
+      })
+  };
+
   render() {
     const {
-      isOpen = true, 
-      shortcuts, 
-      splitPanel, 
-      showTimePicker = true, 
-      showCalendarPicker = true
+      isOpen = true,
+      shortcuts,
+      splitPanel,
+      showTimePicker = true,
+      showCalendarPicker = true,
+      showBackButton = false
     } = this.props;
-    const {panel} = this.state;
+    const {panel, calendarPanel} = this.state;
     const isTimePanel = panel === 'time';
     const isCalendarPanel = panel === 'calendar';
     const className = classNames('datetime-picker', this.props.className, {
       split: splitPanel
     });
-    const props = blacklist(this.props, 'className', 'splitPanel', 'isOpen');    
+    const props = blacklist(this.props, 'className', 'splitPanel', 'isOpen');
 
     return (
       <div className={className} style={{display: isOpen ? 'block' : 'none'}} onClick={(evt) => evt.stopPropagation()}>
@@ -55,15 +85,24 @@ class Picker extends Component {
           </div>
           : undefined
         }
-        
+
         {showCalendarPicker
-          ? <Calendar {...props} isOpen={isOpen} style={{display: isCalendarPanel || !splitPanel ? 'block' : 'none'}} />
+          ? <Calendar {...props} isOpen={isOpen} panel={calendarPanel} onChangePanel={this.changeCalendarPanel} style={{display: isCalendarPanel || !splitPanel ? 'block' : 'none'}} />
           : undefined
         }
 
         {showTimePicker
           ? <Time {...props} style={{display: isTimePanel || !splitPanel ? 'block' : 'none'}} />
           : undefined
+        }
+        {showBackButton && showCalendarPicker && calendarPanel === 'day' &&
+            <div className='back-button' onClick={this.handleCancel}>Cancel</div>
+        }
+        {showBackButton && showCalendarPicker && calendarPanel === 'month' &&
+          <div className='back-button' onClick={this.handleBackToDayPanel}>Back</div>
+        }
+        {showBackButton && showCalendarPicker && calendarPanel === 'year' &&
+          <div className='back-button' onClick={this.handleBackToMonthPanel}>Back</div>
         }
       </div>
     );

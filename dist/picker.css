@@ -12,6 +12,19 @@
   width: 250px;
   box-sizing: content-box;
   z-index: 100;
+  margin-bottom: 45px;
+}
+.datetime-picker .back-button {
+  position: absolute;
+  bottom: -45px;
+  height: 40px;
+  border-radius: 4px;
+  text-align: center;
+  width: 100%;
+  line-height: 40px;
+  border: 1px solid #dbdbdb;
+  cursor: pointer;
+  user-select: none;
 }
 .datetime-picker .calendar .calendar-nav {
   display: flex;
@@ -19,6 +32,7 @@
   border-bottom: 1px solid #efefef;
   min-height: 32px;
   padding: 4px;
+  background: $dark;
 }
 .datetime-picker .calendar .calendar-nav button {
   background: none;
@@ -114,7 +128,7 @@
   font-weight: 400;
 }
 .datetime-picker .calendar table tbody tr td.selected {
-  background-color: #5cc4ef;
+  background-color: #43bf60;
   color: #fff;
   font-weight: 400;
 }

@@ -2,6 +2,14 @@
   box-sizing: border-box;
 }
 
+@charcoal-grey: #2a2b30;
+@medium-grey: #5d5f5d;
+@tomato: #e74040;
+@coral-pink: #ff506a;
+@dark-mint: #43bf60;
+@macaroni-and-cheese: #ecb748;
+@algae-green: #27c249;
+
 .datetime-picker {
   position: relative;
   border: 1px solid #dbdbdb;
@@ -13,6 +21,20 @@
   width: 250px;
   box-sizing: content-box;
   z-index: 100;
+  margin-bottom: 40px  + 5px;
+
+  .back-button {
+    position: absolute;
+    bottom: -(40px + 5px);
+    height: 40px;
+    border-radius: 4px;
+    text-align: center;
+    width: 100%;
+    line-height: 40px;
+    border: 1px solid #dbdbdb;
+    cursor: pointer;
+    user-select: none;
+  }
 
   .calendar {
 
@@ -22,6 +44,7 @@
       border-bottom: 1px solid #efefef;
       min-height: 32px;
       padding: 4px;
+      background: $dark;
 
       button {
         background: none;
@@ -132,7 +155,7 @@
             }
 
             &.selected {
-              background-color: #5cc4ef;
+              background-color: @dark-mint;
               color: #fff;
               font-weight: 400;
 
@@ -323,4 +346,8 @@
     top: -6px;
     transform: rotate(315deg);
   }
+}
+
+@media (max-width: 524px) {
+
 }
